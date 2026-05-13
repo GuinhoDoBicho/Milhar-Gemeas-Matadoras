@@ -3,37 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Milhar Gêmeas Matadoras - Guinho</title>
+    <title>Milhar Gêmeas Matadoras - Premium</title>
+    <!-- Importação de ícones e fontes modernas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
         :root {
-            --azul-fundo: #001a33;
-            --verde-botao: #006400;
-            --amarelo: #ffcc00;
-            --preto: #000000;
+            --bg-dark: #020d18;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --neon-yellow: #f0e635;
+            --neon-green: #39ff14;
+            --neon-orange: #ff8c00;
+            --text-shadow: 0 0 10px rgba(240, 230, 53, 0.5);
         }
 
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        * { 
+            box-sizing: border-box; 
+            -webkit-tap-highlight-color: transparent;
+            font-family: 'Rajdhani', sans-serif;
+        }
 
         body {
-            background-color: var(--azul-fundo);
+            background: radial-gradient(circle at center, #0a1f33 0%, var(--bg-dark) 100%);
+            background-attachment: fixed;
             color: white;
-            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
             user-select: none;
+            overflow-x: hidden;
         }
 
-        /* TELA DE LOGIN */
+        /* TELA DE LOGIN PREMIUM */
         #loginScreen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: var(--azul-fundo);
+            background: var(--bg-dark);
             z-index: 2000;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             padding: 20px;
@@ -41,166 +53,263 @@
 
         .login-box {
             width: 100%;
-            max-width: 350px;
-            border: 3px solid var(--amarelo);
-            border-radius: 20px;
-            padding: 30px;
+            max-width: 380px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            border: 1px solid var(--neon-yellow);
+            border-radius: 30px;
+            padding: 40px 30px;
             text-align: center;
-            box-shadow: 0 0 20px var(--amarelo);
+            box-shadow: 0 0 30px rgba(240, 230, 53, 0.2);
         }
 
         .input-senha {
             width: 100%;
             padding: 15px;
-            margin: 20px 0;
-            border-radius: 8px;
-            border: 2px solid var(--amarelo);
-            background: #000;
-            color: var(--amarelo);
+            margin: 25px 0;
+            border-radius: 12px;
+            border: 1px solid var(--neon-yellow);
+            background: rgba(0,0,0,0.5);
+            color: var(--neon-yellow);
             text-align: center;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
         }
 
         /* CONTEÚDO PRINCIPAL */
         #mainContent {
             display: none;
             width: 100%;
+            max-width: 500px;
             flex-direction: column;
             align-items: center;
+            gap: 15px;
         }
 
-        /* ANIMAÇÃO PULSANTE DO TÍTULO */
-        @keyframes pulsar {
-            0% { transform: scale(1); filter: brightness(1); }
-            50% { transform: scale(1.03); filter: brightness(1.2); text-shadow: 0 0 15px var(--amarelo); }
-            100% { transform: scale(1); filter: brightness(1); }
-        }
-
+        /* HEADER GLASS */
         .header-box {
             width: 100%;
-            max-width: 450px;
-            border: 2px solid var(--amarelo);
-            border-radius: 15px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--neon-green);
+            border-radius: 20px;
             padding: 20px;
-            margin-bottom: 15px;
             text-align: center;
-            animation: pulsar 3s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
         }
 
-        h1 { color: var(--amarelo); margin: 0; font-size: 1.6rem; text-transform: uppercase; }
+        .header-box::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.05), transparent);
+            transform: rotate(45deg);
+            animation: shine 4s infinite;
+        }
 
-        .secao-caixa {
+        @keyframes shine { 0% { left: -100%; } 100% { left: 100%; } }
+
+        h1 { 
+            color: var(--neon-yellow); 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem; 
+            letter-spacing: 2px;
+            text-shadow: var(--text-shadow);
+        }
+
+        /* SELEÇÃO DE GÊMEA - GRANDE DISPLAY */
+        .gemea-display {
+            background: rgba(255,255,255,0.03);
+            border-radius: 25px;
+            padding: 20px;
+            border: 1px solid var(--glass-border);
             width: 100%;
-            max-width: 450px;
-            border: 2px solid var(--amarelo);
-            border-radius: 15px;
-            padding: 15px;
-            margin-bottom: 15px;
             text-align: center;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
         }
 
         .select-gemea {
             background: transparent;
-            color: var(--amarelo);
+            color: var(--neon-yellow);
             border: none;
-            font-size: 5rem;
+            font-size: 5.5rem;
+            font-family: 'Orbitron', sans-serif;
             font-weight: bold;
             cursor: pointer;
             outline: none;
-            text-align: center;
+            text-shadow: 0 0 20px rgba(240, 230, 53, 0.8);
+            appearance: none;
+            width: 100%;
         }
 
+        /* GRADE HEXAGONAL */
         .digit-grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
-            gap: 12px;
-            margin: 15px 0;
+            gap: 8px;
+            width: 100%;
+            padding: 10px;
         }
 
         .num-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            border: 2px solid var(--amarelo);
-            background: transparent;
-            color: white;
-            font-size: 1.3rem;
+            aspect-ratio: 1/1.1;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            background: rgba(255,255,255,0.05);
+            border: none;
+            color: var(--neon-green);
+            font-size: 1.5rem;
             font-weight: bold;
             cursor: pointer;
-        }
-
-        .num-btn.selected { background: var(--amarelo); color: black; }
-        .num-btn:disabled { opacity: 0.15; cursor: not-allowed; }
-
-        /* BOTÕES SIMÉTRICOS */
-        .btn-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-            width: 100%;
-            max-width: 450px;
-            margin-bottom: 20px;
-        }
-
-        .btn {
-            flex: 1;
-            background: var(--verde-botao);
-            border: 2px solid var(--amarelo);
-            color: var(--amarelo);
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            transition: 0.3s;
+            position: relative;
         }
 
-        /* TABELA DE RESULTADOS */
-        .result-table {
+        /* Simulando a borda do hexágono com pseudo-elemento */
+        .num-btn::before {
+            content: '';
+            position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px;
+            background: #0a1f33;
+            clip-path: inherit;
+            z-index: -1;
+        }
+
+        .num-btn:not(:disabled) {
+            background: var(--neon-green);
+            box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+        }
+
+        .num-btn.selected { 
+            background: var(--neon-orange);
+            color: white;
+            box-shadow: 0 0 15px var(--neon-orange);
+            transform: scale(1.1);
+        }
+        
+        .num-btn.selected::before {
+            background: #1a1000;
+        }
+
+        .num-btn:disabled { opacity: 0.1; cursor: not-allowed; }
+
+        /* BOTÕES DE AÇÃO ESTILO GAMING */
+        .btn-group {
+            display: grid;
+            grid-template-columns: 1fr 0.6fr 1fr;
+            gap: 10px;
             width: 100%;
-            max-width: 450px;
-            background: var(--preto);
-            border: 1px solid var(--amarelo);
-            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(180deg, #1d3a2f 0%, #0d1a15 100%);
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            border-radius: 12px;
+            padding: 10px 5px;
+            font-weight: bold;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            box-shadow: 0 4px 0px #000;
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0px #000;
+        }
+
+        .btn i { font-size: 1.1rem; }
+
+        /* TABELA DE RESULTADOS DARK */
+        .result-container {
+            width: 100%;
+            background: rgba(0,0,0,0.6);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            max-height: 300px;
+            overflow-y: auto;
             display: none;
         }
 
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
         .result-table td {
-            border: 1px solid #333;
+            border: 1px solid rgba(255,255,255,0.05);
             padding: 15px 5px;
             text-align: center;
             font-size: 1.3rem;
-            font-family: monospace;
+            color: var(--neon-yellow);
+            font-family: 'Orbitron', sans-serif;
         }
 
-        /* POPUP YES */
+        /* CONFERIDOR */
+        .conferidor-box {
+            width: 100%;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid var(--neon-yellow);
+        }
+
+        .input-milhar {
+            width: 100%;
+            padding: 15px;
+            background: black;
+            border: 1px solid var(--neon-yellow);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* MODAL YES */
         .modal {
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.9);
             z-index: 3000;
             justify-content: center; align-items: center;
+            backdrop-filter: blur(10px);
         }
 
         .modal-content {
-            background: var(--azul-fundo);
-            border: 4px solid var(--amarelo);
-            border-radius: 20px;
+            background: #0a1f33;
+            border: 2px solid var(--neon-yellow);
+            border-radius: 30px;
             padding: 40px;
             text-align: center;
-            box-shadow: 0 0 40px var(--amarelo);
-            animation: zoomIn 0.4s ease;
+            box-shadow: 0 0 50px var(--neon-yellow);
+            animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        @keyframes zoomIn { from { transform: scale(0.5); } to { transform: scale(1); } }
+        @keyframes zoomIn { from { transform: scale(0); } to { transform: scale(1); } }
 
-        .footer { font-weight: bold; color: var(--amarelo); margin: 20px 0; font-size: 1rem; }
+        .footer { 
+            font-size: 0.9rem; 
+            color: rgba(255,255,255,0.4); 
+            margin: 20px 0;
+            text-align: center;
+        }
+        
+        .footer b { color: var(--neon-yellow); }
     </style>
 </head>
 <body oncontextmenu="return false">
@@ -208,11 +317,14 @@
     <!-- TELA DE LOGIN -->
     <div id="loginScreen">
         <div class="login-box">
-            <h2 style="color: var(--amarelo);">ACESSO VIP</h2>
-            <p>Insira a senha para liberar:</p>
-            <input type="password" id="senhaInput" class="input-senha" placeholder="SENHA AQUI">
-            <button class="btn" style="width: 100%; height: 50px;" onclick="acessarSistema()">ENTRAR</button>
-            <p style="margin-top: 20px; font-size: 0.8rem; color: #888;">Criado por Guinho Do Bicho</p>
+            <i class="fa-solid fa-shield-halved" style="font-size: 3rem; color: var(--neon-yellow); margin-bottom: 15px;"></i>
+            <h2 style="color: var(--neon-yellow); margin: 0; font-family: 'Orbitron';">ACESSO VIP</h2>
+            <p style="opacity: 0.7;">Ambiente Criptografado</p>
+            <input type="password" id="senhaInput" class="input-senha" placeholder="••••••••">
+            <button class="btn" style="width: 100%; height: 55px; font-size: 1rem;" onclick="acessarSistema()">
+                LIBERAR ACESSO <i class="fa-solid fa-unlock"></i>
+            </button>
+            <p style="margin-top: 25px; font-size: 0.8rem; opacity: 0.5;">MILHAR GÊMEAS MATADORAS</p>
         </div>
     </div>
 
@@ -222,44 +334,59 @@
             <h1>MILHAR GÊMEAS<br>MATADORAS</h1>
         </div>
 
-        <div class="secao-caixa">
+        <div class="gemea-display">
+            <i class="fa-solid fa-chevron-down" style="color: var(--neon-yellow); font-size: 0.8rem;"></i>
             <select id="selGemea" class="select-gemea" onchange="resetVariaveis()">
                 <!-- JS gera -->
             </select>
+            <i class="fa-solid fa-chevron-down" style="color: var(--neon-yellow); font-size: 0.8rem; display: block; margin-top: -10px;"></i>
         </div>
 
-        <div class="secao-caixa">
-            <h3 style="margin:0; font-size: 1rem;">ESCOLHA 8 DÍGITOS VARIÁVEIS</h3>
+        <div style="text-align: center; width: 100%;">
+            <p style="margin: 10px 0; letter-spacing: 1px; font-weight: bold; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
+                ESCOLHA 8 DÍGITOS VARIÁVEIS
+            </p>
             <div class="digit-grid" id="gridNums"></div>
-            <div id="statusLabel" style="color: var(--amarelo)">Selecionados: 0/8</div>
+            <div id="statusLabel" style="color: var(--neon-yellow); font-weight: bold; margin-top: 5px;">Selecionados: 0/8</div>
         </div>
 
         <div class="btn-group">
-            <button class="btn" onclick="gerar()">GERAR<br>COMBINAÇÕES</button>
-            <!-- BOTÃO CORRIGIDO: Limpa apenas o jogo, não a senha -->
-            <button class="btn" style="flex: 0.6;" onclick="limparJogos()">LIMPAR<br>JOGOS</button>
-            <button class="btn" onclick="compartilhar()">COMPARTILHAR</button>
+            <button class="btn" onclick="gerar()">
+                <i class="fa-solid fa-gears"></i> GERAR<br>COMBINAÇÕES
+            </button>
+            <button class="btn" onclick="limparJogos()">
+                <i class="fa-solid fa-trash-can"></i> LIMPAR<br>JOGOS
+            </button>
+            <button class="btn" onclick="compartilhar()">
+                <i class="fa-solid fa-share-nodes"></i> COMPARTILHAR
+            </button>
         </div>
 
-        <table class="result-table" id="tabelaRes"></table>
-
-        <div class="secao-caixa" id="conferidorBox" style="display:none; margin-top: 20px;">
-            <h3 style="color:var(--amarelo)">CONFERIDOR</h3>
-            <input type="number" id="milharInput" placeholder="Milhar Sorteada" 
-                   style="width: 100%; padding: 15px; border-radius: 8px; text-align: center; font-size: 1.3rem;">
-            <button class="btn" style="width: 100%; margin-top: 15px; height: 55px;" onclick="conferir()">VERIFICAR ACERTO</button>
+        <div class="result-container" id="resContainer">
+            <table class="result-table" id="tabelaRes"></table>
         </div>
 
-        <div class="footer">Criado por Guinho Do Bicho</div>
+        <div class="conferidor-box" id="conferidorBox" style="display:none;">
+            <h3 style="color:var(--neon-yellow); margin-top: 0; font-size: 1rem; text-align: center;">CONFERIDOR</h3>
+            <input type="number" id="milharInput" class="input-milhar" placeholder="0000" maxlength="4">
+            <button class="btn" style="width: 100%; margin-top: 15px; height: 50px; color: white; border-color: var(--neon-yellow);" onclick="conferir()">
+                VERIFICAR ACERTO <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </div>
+
+        <div class="footer">Criado por <b>Guinho Do Bicho</b></div>
     </div>
 
     <!-- MODAL DE VITÓRIA -->
     <div id="winModal" class="modal">
         <div class="modal-content">
-            <h2 style="color: var(--amarelo); font-size: 2.5rem;">YES! 🤑</h2>
-            <p style="font-size: 1.3rem; margin: 20px 0;">MILHAR ENCONTRADA!</p>
-            <div id="resWin" style="font-size: 3rem; font-weight: bold; color: #fff;"></div>
-            <button class="btn" style="width:100%; margin-top: 30px;" onclick="fecharModal()">CONTINUAR</button>
+            <div style="font-size: 4rem; margin-bottom: 10px;">🤑</div>
+            <h2 style="color: var(--neon-yellow); font-size: 2.2rem; margin: 0; font-family: 'Orbitron';">YES!</h2>
+            <p style="font-size: 1.1rem; margin: 10px 0; opacity: 0.8;">MILHAR ENCONTRADA!</p>
+            <div id="resWin" style="font-size: 3.5rem; font-weight: bold; color: #fff; font-family: 'Orbitron'; text-shadow: 0 0 20px var(--neon-green);"></div>
+            <button class="btn" style="width:100%; margin-top: 30px; height: 50px; border-color: var(--neon-green); color: white;" onclick="fecharModal()">
+                CONTINUAR <i class="fa-solid fa-play"></i>
+            </button>
         </div>
     </div>
 
@@ -285,16 +412,14 @@
             document.getElementById('mainContent').style.display = 'flex';
         }
 
-        // --- CORREÇÃO URGENTE: LIMPAR JOGOS SEM APAGAR SENHA ---
         function limparJogos() {
             selecionados = [];
             document.getElementById('statusLabel').innerText = `Selecionados: 0/8`;
-            document.getElementById('tabelaRes').style.display = 'none';
+            document.getElementById('resContainer').style.display = 'none';
             document.getElementById('conferidorBox').style.display = 'none';
-            render(); // Reseta os botões numerados
+            render(); 
         }
 
-        // --- RESTANTE DAS FUNÇÕES (INTACTAS) ---
         let selecionados = [];
         const grid = document.getElementById('gridNums');
         const selectG = document.getElementById('selGemea');
@@ -340,8 +465,9 @@
             if(selecionados.length < 8) return alert("Selecione os 8 dígitos!");
             const g = selectG.value;
             const tab = document.getElementById('tabelaRes');
+            const cont = document.getElementById('resContainer');
             tab.innerHTML = '';
-            tab.style.display = 'table';
+            cont.style.display = 'block';
             document.getElementById('conferidorBox').style.display = 'block';
             let lista = [];
             for(let i=0; i<selecionados.length; i++) {
@@ -352,10 +478,13 @@
             for(let i=0; i<lista.length; i+=5) {
                 let row = tab.insertRow();
                 for(let j=0; j<5; j++) {
-                    if(lista[i+j]) row.insertCell().innerText = lista[i+j];
+                    if(lista[i+j]) {
+                        let cell = row.insertCell();
+                        cell.innerText = lista[i+j];
+                    }
                 }
             }
-            window.scrollTo(0, document.body.scrollHeight);
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
         }
 
         function conferir() {
@@ -365,15 +494,17 @@
             const sortedSorteio = sorteio.split('').sort().join('');
             let win = false;
             cells.forEach(c => {
-                c.style.background = "transparent"; c.style.color = "white";
+                c.style.background = "transparent"; c.style.color = "var(--neon-yellow)";
                 if(c.innerText.split('').sort().join('') === sortedSorteio) {
-                    c.style.background = "#ffcc00"; c.style.color = "black";
+                    c.style.background = "var(--neon-yellow)"; c.style.color = "black";
                     document.getElementById('resWin').innerText = c.innerText; win = true;
                 }
             });
             if(win) {
                 new Audio('https://www.myinstants.com/media/sounds/yes-1.mp3').play();
                 document.getElementById('winModal').style.display = 'flex';
+            } else {
+                alert("Nenhuma milhar encontrada nesta lista.");
             }
         }
 
@@ -381,7 +512,9 @@
 
         function compartilhar() {
             let t = "*Fechamento Matador - Guinho*\n";
-            document.querySelectorAll('td').forEach(c => t += c.innerText + " | ");
+            let cells = document.querySelectorAll('td');
+            if(cells.length === 0) return alert("Gere as combinações primeiro!");
+            cells.forEach(c => t += c.innerText + " | ");
             window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(t)}`);
         }
 
