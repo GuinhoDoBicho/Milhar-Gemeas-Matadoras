@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Milhar Gêmeas Matadoras - Guinho</title>
+    <style>
+        :root {
+            --azul-fundo: #001a33;
+            --verde-botao: #006400;
+            --amarelo: #ffcc00;
+            --preto: #000000;
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+        body {
+            background-color: var(--azul-fundo);
+            color: white;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            user-select: none;
+        }
+
+        /* TELA DE LOGIN */
+        #loginScreen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--azul-fundo);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 350px;
+            border: 3px solid var(--amarelo);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 20px var(--amarelo);
+        }
+
+        .input-senha {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid var(--amarelo);
+            background: #000;
+            color: var(--amarelo);
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        /* CONTEÚDO PRINCIPAL */
+        #mainContent {
+            display: none;
+            width: 100%;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* ANIMAÇÃO PULSANTE DO TÍTULO */
+        @keyframes pulsar {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.03); filter: brightness(1.2); text-shadow: 0 0 15px var(--amarelo); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+
+        .header-box {
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid var(--amarelo);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            animation: pulsar 3s infinite ease-in-out;
+        }
+
+        h1 { color: var(--amarelo); margin: 0; font-size: 1.6rem; text-transform: uppercase; }
+
+        .secao-caixa {
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid var(--amarelo);
+            border-radius: 15px;
+            padding: 15px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .select-gemea {
+            background: transparent;
+            color: var(--amarelo);
+            border: none;
+            font-size: 5rem;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
+            text-align: center;
+        }
+
+        .digit-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            margin: 15px 0;
+        }
+
+        .num-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--amarelo);
+            background: transparent;
+            color: white;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .num-btn.selected { background: var(--amarelo); color: black; }
+        .num-btn:disabled { opacity: 0.15; cursor: not-allowed; }
+
+        /* BOTÕES SIMÉTRICOS */
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            width: 100%;
+            max-width: 450px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            flex: 1;
+            background: var(--verde-botao);
+            border: 2px solid var(--amarelo);
+            color: var(--amarelo);
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* TABELA DE RESULTADOS */
+        .result-table {
+            width: 100%;
+            max-width: 450px;
+            background: var(--preto);
+            border: 1px solid var(--amarelo);
+            border-collapse: collapse;
+            display: none;
+        }
+
+        .result-table td {
+            border: 1px solid #333;
+            padding: 15px 5px;
+            text-align: center;
+            font-size: 1.3rem;
+            font-family: monospace;
+        }
+
+        /* POPUP YES */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 3000;
+            justify-content: center; align-items: center;
+        }
+
+        .modal-content {
+            background: var(--azul-fundo);
+            border: 4px solid var(--amarelo);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            box-shadow: 0 0 40px var(--amarelo);
+            animation: zoomIn 0.4s ease;
+        }
+
+        @keyframes zoomIn { from { transform: scale(0.5); } to { transform: scale(1); } }
+
+        .footer { font-weight: bold; color: var(--amarelo); margin: 20px 0; font-size: 1rem; }
+    </style>
+</head>
+<body oncontextmenu="return false">
+
+    <!-- TELA DE LOGIN -->
+    <div id="loginScreen">
+        <div class="login-box">
+            <h2 style="color: var(--amarelo);">ACESSO VIP</h2>
+            <p>Insira a senha para liberar:</p>
+            <input type="password" id="senhaInput" class="input-senha" placeholder="SENHA AQUI">
+            <button class="btn" style="width: 100%; height: 50px;" onclick="acessarSistema()">ENTRAR</button>
+            <p style="margin-top: 20px; font-size: 0.8rem; color: #888;">Criado por Guinho Do Bicho</p>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div id="mainContent">
+        <div class="header-box">
+            <h1>MILHAR GÊMEAS<br>MATADORAS</h1>
+        </div>
+
+        <div class="secao-caixa">
+            <select id="selGemea" class="select-gemea" onchange="resetVariaveis()">
+                <!-- JS gera -->
+            </select>
+        </div>
+
+        <div class="secao-caixa">
+            <h3 style="margin:0; font-size: 1rem;">ESCOLHA 8 DÍGITOS VARIÁVEIS</h3>
+            <div class="digit-grid" id="gridNums"></div>
+            <div id="statusLabel" style="color: var(--amarelo)">Selecionados: 0/8</div>
+        </div>
+
+        <div class="btn-group">
+            <button class="btn" onclick="gerar()">GERAR<br>COMBINAÇÕES</button>
+            <!-- BOTÃO CORRIGIDO: Limpa apenas o jogo, não a senha -->
+            <button class="btn" style="flex: 0.6;" onclick="limparJogos()">LIMPAR<br>JOGOS</button>
+            <button class="btn" onclick="compartilhar()">COMPARTILHAR</button>
+        </div>
+
+        <table class="result-table" id="tabelaRes"></table>
+
+        <div class="secao-caixa" id="conferidorBox" style="display:none; margin-top: 20px;">
+            <h3 style="color:var(--amarelo)">CONFERIDOR</h3>
+            <input type="number" id="milharInput" placeholder="Milhar Sorteada" 
+                   style="width: 100%; padding: 15px; border-radius: 8px; text-align: center; font-size: 1.3rem;">
+            <button class="btn" style="width: 100%; margin-top: 15px; height: 55px;" onclick="conferir()">VERIFICAR ACERTO</button>
+        </div>
+
+        <div class="footer">Criado por Guinho Do Bicho</div>
+    </div>
+
+    <!-- MODAL DE VITÓRIA -->
+    <div id="winModal" class="modal">
+        <div class="modal-content">
+            <h2 style="color: var(--amarelo); font-size: 2.5rem;">YES! 🤑</h2>
+            <p style="font-size: 1.3rem; margin: 20px 0;">MILHAR ENCONTRADA!</p>
+            <div id="resWin" style="font-size: 3rem; font-weight: bold; color: #fff;"></div>
+            <button class="btn" style="width:100%; margin-top: 30px;" onclick="fecharModal()">CONTINUAR</button>
+        </div>
+    </div>
+
+    <script>
+        // --- LOGICA DE ACESSO (PERMANENTE) ---
+        window.onload = function() {
+            if (localStorage.getItem('acessoMatador') === 'true') {
+                liberarSistema();
+            }
+        };
+
+        function acessarSistema() {
+            if (document.getElementById('senhaInput').value === "GEMEASMATAD0RAS") {
+                localStorage.setItem('acessoMatador', 'true');
+                liberarSistema();
+            } else {
+                alert("SENHA INCORRETA!");
+            }
+        }
+
+        function liberarSistema() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('mainContent').style.display = 'flex';
+        }
+
+        // --- CORREÇÃO URGENTE: LIMPAR JOGOS SEM APAGAR SENHA ---
+        function limparJogos() {
+            selecionados = [];
+            document.getElementById('statusLabel').innerText = `Selecionados: 0/8`;
+            document.getElementById('tabelaRes').style.display = 'none';
+            document.getElementById('conferidorBox').style.display = 'none';
+            render(); // Reseta os botões numerados
+        }
+
+        // --- RESTANTE DAS FUNÇÕES (INTACTAS) ---
+        let selecionados = [];
+        const grid = document.getElementById('gridNums');
+        const selectG = document.getElementById('selGemea');
+
+        for(let i=0; i<=9; i++) {
+            let opt = document.createElement('option');
+            opt.value = i; opt.text = i + "" + i;
+            if(i === 9) opt.selected = true;
+            selectG.appendChild(opt);
+        }
+
+        function render() {
+            grid.innerHTML = '';
+            const g = parseInt(selectG.value);
+            for(let i=0; i<=9; i++) {
+                let btn = document.createElement('button');
+                btn.innerText = i;
+                btn.className = 'num-btn';
+                if(i === g) btn.disabled = true;
+                btn.onclick = () => toggle(i, btn);
+                grid.appendChild(btn);
+            }
+        }
+
+        function toggle(n, btn) {
+            if(selecionados.includes(n)) {
+                selecionados = selecionados.filter(x => x !== n);
+                btn.classList.remove('selected');
+            } else if(selecionados.length < 8) {
+                selecionados.push(n);
+                btn.classList.add('selected');
+            }
+            document.getElementById('statusLabel').innerText = `Selecionados: ${selecionados.length}/8`;
+        }
+
+        function resetVariaveis() {
+            selecionados = [];
+            document.getElementById('statusLabel').innerText = `Selecionados: 0/8`;
+            render();
+        }
+
+        function gerar() {
+            if(selecionados.length < 8) return alert("Selecione os 8 dígitos!");
+            const g = selectG.value;
+            const tab = document.getElementById('tabelaRes');
+            tab.innerHTML = '';
+            tab.style.display = 'table';
+            document.getElementById('conferidorBox').style.display = 'block';
+            let lista = [];
+            for(let i=0; i<selecionados.length; i++) {
+                for(let j=i+1; j<selecionados.length; j++) {
+                    lista.push(`${g}${g}${selecionados[i]}${selecionados[j]}`);
+                }
+            }
+            for(let i=0; i<lista.length; i+=5) {
+                let row = tab.insertRow();
+                for(let j=0; j<5; j++) {
+                    if(lista[i+j]) row.insertCell().innerText = lista[i+j];
+                }
+            }
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function conferir() {
+            const sorteio = document.getElementById('milharInput').value;
+            if(sorteio.length !== 4) return alert("Digite 4 números!");
+            const cells = document.querySelectorAll('td');
+            const sortedSorteio = sorteio.split('').sort().join('');
+            let win = false;
+            cells.forEach(c => {
+                c.style.background = "transparent"; c.style.color = "white";
+                if(c.innerText.split('').sort().join('') === sortedSorteio) {
+                    c.style.background = "#ffcc00"; c.style.color = "black";
+                    document.getElementById('resWin').innerText = c.innerText; win = true;
+                }
+            });
+            if(win) {
+                new Audio('https://www.myinstants.com/media/sounds/yes-1.mp3').play();
+                document.getElementById('winModal').style.display = 'flex';
+            }
+        }
+
+        function fecharModal() { document.getElementById('winModal').style.display = 'none'; }
+
+        function compartilhar() {
+            let t = "*Fechamento Matador - Guinho*\n";
+            document.querySelectorAll('td').forEach(c => t += c.innerText + " | ");
+            window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(t)}`);
+        }
+
+        document.onkeydown = (e) => {
+            if (e.keyCode == 123 || (e.ctrlKey && (e.keyCode == 85 || e.keyCode == 73 || e.keyCode == 74))) return false;
+        };
+
+        render();
+    </script>
+</body>
+</html>
